@@ -1,6 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, Depends
 from sqlalchemy.orm import Session
 import shutil
+import os
 
 from app.database.dependencies import get_db
 from app.database.models import Resume
@@ -21,6 +22,7 @@ async def upload_resume(
     db: Session = Depends(get_db)
 ):
     # Save uploaded file
+    os.makedirs("uploads", exist_ok=True)
     file_path = f"uploads/{file.filename}"
 
     with open(file_path, "wb") as buffer:
